@@ -1,0 +1,38 @@
+---
+title: Integration & Automation Flow
+---
+sequenceDiagram
+    actor Staff as Operations Staff
+    participant CRM as CRM (System of Record)
+    participant INT as Integration Layer
+    participant EC as eCommerce Platform
+    participant COMMS as Automation Engine
+    actor Learner as Learner / Resource
+
+    Note over Staff,Learner: ── New Course Offering ──
+    Staff->>CRM: Create Event Course record
+    CRM->>INT: Trigger: New Event Course
+    INT->>EC: Create listing + set inventory count
+
+    Note over Staff,Learner: ── Enrollment ──
+    Learner->>EC: Purchase course
+    EC->>INT: Purchase webhook
+    INT->>CRM: Create Course Seat (Status: Enrolled)
+    CRM->>COMMS: Trigger: Seat Status = Enrolled
+    COMMS->>Learner: Send enrollment confirmation
+
+    Note over Staff,Learner: ── Weekly Roster ──
+    CRM->>COMMS: Scheduled trigger (weekly)
+    COMMS->>Learner: Send upcoming week roster to assigned resources
+
+    Note over Staff,Learner: ── Program Completion ──
+    Staff->>CRM: Update Course Seat Status = Complete
+    CRM->>COMMS: Trigger: Status = Complete
+    COMMS->>Learner: Send post-program documentation
+
+    Note over Staff,Learner: ── Cancellation ──
+    Staff->>CRM: Cancel Event Course
+    CRM->>INT: Trigger: Event Course Status = Cancelled
+    INT->>EC: Remove / flag listing; release inventory
+    CRM->>COMMS: Trigger: Cancellation notification
+    COMMS->>Learner: Send cancellation notice

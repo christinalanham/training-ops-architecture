@@ -1,0 +1,40 @@
+---
+title: Current State — Three Siloed Systems
+---
+graph TD
+    subgraph CRM["CRM Platform"]
+        C1[Customer Records]
+        C2[Sales / Opportunities]
+        C3[Account Data]
+    end
+
+    subgraph EC["eCommerce Platform"]
+        E1[Course Listings]
+        E2[Inventory Counts]
+        E3[Purchase Records]
+    end
+
+    subgraph LMS["Learning Management System"]
+        L1[Student Records]
+        L2[Course Completions]
+        L3[Certificates]
+    end
+
+    subgraph KB["Tribal Knowledge & Offline Systems"]
+        K1[Spreadsheets\nCourse Schedules / Rosters]
+        K2[Email Threads\nInstructor Assignments]
+        K3[Manual Processes\nCommunications / Bookings]
+        K4[Individual Memory\nQualification Rules / Exams]
+    end
+
+    KB -.->|Manual re-entry required| CRM
+    KB -.->|Manual re-entry required| EC
+    KB -.->|Manual re-entry required| LMS
+    CRM -.->|No integration| EC
+    CRM -.->|No integration| LMS
+    EC -.->|No integration| LMS
+
+    style KB fill:#ffcccc,stroke:#cc3333,color:#000
+    style CRM fill:#dce8f5,stroke:#3a6fa8,color:#000
+    style EC fill:#dce8f5,stroke:#3a6fa8,color:#000
+    style LMS fill:#dce8f5,stroke:#3a6fa8,color:#000

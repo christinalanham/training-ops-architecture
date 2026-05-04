@@ -1,0 +1,50 @@
+---
+title: Target State — CRM as System of Record
+---
+graph TD
+    subgraph CRM["CRM — System of Record"]
+        C1[Customer & Account Data]
+        C2[Course Catalog]
+        C3[Event Courses]
+        C4[Course Seats]
+        C5[Course Bookings]
+        C6[Qualification Categories]
+        C7[Exams]
+        C8[Automation Engine]
+    end
+
+    subgraph INT["Integration Layer\nCeligo / Zapier"]
+        I1[Event Routing]
+        I2[State Change Sync]
+    end
+
+    subgraph EC["eCommerce Platform\n(Consumer)"]
+        E1[Course Listings]
+        E2[Inventory — synced from CRM]
+        E3[Purchases → webhook out]
+    end
+
+    subgraph LMS["LMS — Delivery Only\n(Consumer)"]
+        L1[Content Delivery]
+        L2[Completions → event out]
+    end
+
+    subgraph COMMS["Automated Communications\n(Zero-touch)"]
+        CO1[Enrollment Confirmations]
+        CO2[Post-Program Documentation]
+        CO3[Weekly Resource Rosters]
+        CO4[Cancellation Notices]
+    end
+
+    CRM -->|State change events| INT
+    INT -->|Sync listings, inventory, cancellations| EC
+    EC -->|Purchase webhook| INT
+    INT -->|Create Course Seat| CRM
+    LMS -->|Completion event| CRM
+    C8 -->|Record state triggers| COMMS
+
+    style CRM fill:#d4edda,stroke:#28a745,color:#000
+    style INT fill:#fff3cd,stroke:#ffc107,color:#000
+    style COMMS fill:#ede0f7,stroke:#7b4fa6,color:#000
+    style EC fill:#dce8f5,stroke:#3a6fa8,color:#000
+    style LMS fill:#dce8f5,stroke:#3a6fa8,color:#000

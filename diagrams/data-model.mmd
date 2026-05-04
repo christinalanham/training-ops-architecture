@@ -1,0 +1,61 @@
+---
+title: Training Domain Data Model
+---
+erDiagram
+    ACCOUNT ||--o{ COURSE_BOOKING : "purchases"
+    CONTACT ||--o{ COURSE_SEAT : "enrolled in"
+    COURSE ||--o{ EVENT_COURSE : "scheduled as"
+    EVENT_COURSE ||--o{ COURSE_SEAT : "contains"
+    COURSE_BOOKING ||--o{ COURSE_SEAT : "covers"
+    QUALIFICATION_CATEGORY ||--o{ COURSE : "required by"
+    CONTACT ||--o{ EXAM : "attempts"
+    QUALIFICATION_CATEGORY ||--o{ EXAM : "assessed by"
+
+    COURSE {
+        string Name
+        string Description
+        number Duration_Hours
+        string Delivery_Type
+        lookup Qualification_Category
+    }
+
+    EVENT_COURSE {
+        date Start_Date
+        date End_Date
+        string Location
+        number Total_Seats
+        number Available_Seats
+        picklist Status
+        lookup Course
+    }
+
+    COURSE_SEAT {
+        picklist Status
+        date Enrollment_Date
+        date Completion_Date
+        lookup Contact
+        lookup Event_Course
+        lookup Course_Booking
+    }
+
+    COURSE_BOOKING {
+        number Seats_Purchased
+        number Seats_Used
+        picklist Status
+        lookup Account
+    }
+
+    QUALIFICATION_CATEGORY {
+        string Name
+        string Description
+        number Valid_Years
+        boolean Requires_Exam
+    }
+
+    EXAM {
+        date Exam_Date
+        picklist Result
+        number Score
+        lookup Contact
+        lookup Qualification_Category
+    }
