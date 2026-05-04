@@ -46,7 +46,7 @@ Six custom objects were created to bring tribal knowledge into structured, repor
 | **Course** | Master catalog of training offerings |
 | **Event Course** | A scheduled instance of a Course (date, location, capacity) |
 | **Course Seat** | Individual enrollment — links a Contact to an Event Course |
-| **Course Booking** | Organizational-level purchase — links an Account to multiple Seats |
+| **Course Booking** | Exam-specific enrollment with time allowance per exam |
 | **Qualification Category** | Credential and certification framework |
 | **Exam** | Assessment records tied to Qualification Categories |
 
